@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const { users } = require("moongose/models");
 const userSchema = mongoose.Schema({
 firstname:{
     type: String,
@@ -33,9 +32,12 @@ cart:{
 },
 address:[{type: mongoose.Schema.Types.ObjectId, ref: "Address"}],
 wishlist:[{type: mongoose.Schema.Types.ObjectId, ref: "Product"}],
+refreshToken:{
+    type:String,
 },
 
-{timestamps:true}
+},
+{timestamps:true},
 );
 
 userSchema.pre("save", async function (next) {
