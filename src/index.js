@@ -3,14 +3,17 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const dbConnect = require('./config/dbConnect');
-
+const morgan = require("morgan");
 //rutas
 const authRouter = require('./routes/authRoute');
+const productRouter = require('./routes/productRoute');
+
 const { notFound, errorHandler } = require('./middlewares/errorHandler');
 require("dotenv").config(); //para hacer variables custom instalar dependeica npm i dotenv
 const app = express();
 const PORT = process.env.PORT || 9000;
 dbConnect();
+app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
@@ -18,6 +21,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(cookieParser());
 app.use('/api/user',authRouter);
+app.use('/api/product', productRouter);
+
 app.use(notFound);
 app.use(errorHandler);
 

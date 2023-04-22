@@ -4,6 +4,7 @@ const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongobdId");
 const { generateRefreshToken } = require("../config/refreshToken");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const user = require("../models/user");
 //crear usuario
 const createUser = asyncHandler (async (req, res) => {
@@ -179,7 +180,50 @@ const unBlockUser = asyncHandler(async (req, res) => {
       throw new Error(error);
     }
   });
+
+  const updatePassword = asyncHandler(async(req, res) =>{
+    const { _id } = req.user;
+    const { password } = req.body;
+    validateMongoDbId(_id);
+      const user = await User.findById(_id);
+      if (password) {
+        user.password = password;
+        const updatedUser = await user.save();
+        res.json(updatedUser);
+      } else if (user.passwordResetExpires && user.passwordResetToken) {
+        res.json({
+          passwordResetExpires: user.passwordResetExpires,
+          passwordResetToken: user.passwordResetToken,
+        });
+      } else {
+        res.json(user);
+      }
+    
+/*
+    if (password) {
+      user.password = password;
+      const updatedUser = await user.save();
+      res.json(updatedUser);
+    } else if (user.passwordResetExpires && user.passwordResetToken) {
+      // Check if the password reset token is still valid
+      const now = new Date();
+      if (now < user.passwordResetExpires) {
+        res.json({
+          passwordResetExpires: user.passwordResetExpires,
+          passwordResetToken: user.passwordResetToken,
+        });
+      } else {
+        // Token has expired, remove it from the user object
+        user.passwordResetExpires = undefined;
+        user.passwordResetToken = undefined;
+        await user.save();
+        res.json(user);
+      }
+    } else {
+      res.json(user);
+    }*/
+  });
 module.exports = {loginUserCtrl, createUser, getAllUser, getaUser,
 updateUser, deleteUser, blockUser, unBlockUser,
-handleRefreshToken, logout,
+handleRefreshToken, logout, updatePassword
  };
