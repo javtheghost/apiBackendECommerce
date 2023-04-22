@@ -6,6 +6,7 @@ const { generateRefreshToken } = require("../config/refreshToken");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const user = require("../models/user");
+const sendEmail = require("./emailController");
 //crear usuario
 const createUser = asyncHandler (async (req, res) => {
     const email = req.body.email;
@@ -180,7 +181,7 @@ const unBlockUser = asyncHandler(async (req, res) => {
       throw new Error(error);
     }
   });
-
+  
   const updatePassword = asyncHandler(async(req, res) =>{
     const { _id } = req.user;
     const { password } = req.body;
@@ -223,7 +224,30 @@ const unBlockUser = asyncHandler(async (req, res) => {
       res.json(user);
     }*/
   });
+
+  const forgotPasswordToken = asyncHandler(async(req, res) =>{
+    const {email} = req.body;
+    const user = await User.findOne({email});
+    if(!user) throw new Error("User not found with this email");
+    try{
+      const token = await user.createPasswordResetToken();
+      await user.save();
+      const resetURL = `Hola, restablece tu contraseña en el enlace siguiente. \n Este enlace solo está disponible durante 10 minutos.
+      <a href='http://localhost/9000/api/user/reset-password/${token}'>Da click aquí</a>`;
+
+      const data = {
+        to: email,
+        text: "Heeey, que tal?",
+        subject: "Restablecer Contraseña",
+        html: resetURL,
+      };
+      sendEmail(data);
+      res.json(token);
+    }catch(error){
+      throw new Error(error)
+    }
+  });
 module.exports = {loginUserCtrl, createUser, getAllUser, getaUser,
 updateUser, deleteUser, blockUser, unBlockUser,
-handleRefreshToken, logout, updatePassword
+handleRefreshToken, logout, updatePassword, forgotPasswordToken
  };
