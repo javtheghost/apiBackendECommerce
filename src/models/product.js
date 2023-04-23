@@ -17,9 +17,7 @@ const productSchema = mongoose.Schema(
       required: true,
       unique: false,
     },
-    images:{
-        type:Array,
-    },
+    images:[],
     price: {
       type: Number,
       required: true,
@@ -47,9 +45,14 @@ const productSchema = mongoose.Schema(
     ratings:[
         {
             star:Number,
+            comment:String,
             postedby:{type: mongoose.Schema.Types.ObjectId, ref:"User"}
         }
-    ]
+    ],
+    totalrating:{
+      type:String,
+      default: 0,
+    }
   },
   { timestamps: true }
 );
