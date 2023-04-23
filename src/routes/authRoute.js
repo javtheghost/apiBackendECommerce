@@ -1,11 +1,13 @@
 const express = require("express");
 const { createUser, loginUserCtrl, getAllUser, updateUser, deleteUser, getaUser,
-unBlockUser, blockUser, handleRefreshToken, logout, updatePassword, forgotPasswordToken } = require("../controllers/userController");
+unBlockUser, blockUser, handleRefreshToken, logout, updatePassword, forgotPasswordToken, resetPassword } = require("../controllers/userController");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
 //importa el orden de estas rutas, register, refresh y logout, si no, no funciona.
 router.post("/register", createUser);
 router.post("/forgot-password-token",forgotPasswordToken);
+router.put("/forgot-password/:token",resetPassword);
+
 router.put("/password", authMiddleware,updatePassword); //restablecer contraseña
 router.post("/login", loginUserCtrl);
 router.get("/all-users", getAllUser);

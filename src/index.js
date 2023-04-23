@@ -7,6 +7,8 @@ const morgan = require("morgan");
 //rutas
 const authRouter = require('./routes/authRoute');
 const productRouter = require('./routes/productRoute');
+const blogRouter = require('./routes/blogRoute');
+
 
 const { notFound, errorHandler } = require('./middlewares/errorHandler');
 require("dotenv").config(); //para hacer variables custom instalar dependeica npm i dotenv
@@ -22,6 +24,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use('/api/user',authRouter);
 app.use('/api/product', productRouter);
+app.use('/api/blog', blogRouter);
+
 
 app.use(notFound);
 app.use(errorHandler);
