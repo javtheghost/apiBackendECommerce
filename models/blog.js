@@ -38,15 +38,11 @@ const blogSchema = mongoose.Schema(
         ref: "User",
         }
     ],
-    image: {
-      type: String,
-      default:
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmailrelay.com%2Fes%2Fblog%2F2018%2F03%2F27%2Fque-es-un-blog%2F&psig=AOvVaw3vguz3pvqhGf6Smifok6iz&ust=1682276673709000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCODM6YyXvv4CFQAAAAAdAAAAABAEUser",
-    },
     author: {
       type: String,
       default: "Admin",
     },
+    images: [],
   },
 
   {

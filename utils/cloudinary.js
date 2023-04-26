@@ -1,16 +1,18 @@
+require("dotenv").config();
 const cloudinary = require("cloudinary");
 cloudinary.config({
-  cloud_name: "dcfpgkmj4",
-  api_key: "285137389114157",
-  api_secret: "M7RZbGaE50M9nrxeqw9VwnWaq44"
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:  process.env.CLOUDINARY_API_KEY,
+  api_secret:  process.env.CLOUDINARY_API_SECRET
 });
-
 const cloudinaryUploadImg = async (fileToUpload) => {
   return new Promise((resolve) => {
     cloudinary.uploader.upload(fileToUpload, (result) => {
       resolve(
         {
           url: result.secure_url,
+          asset_id: result.asset_id,
+          public_id: result.public_id,
         },
         {
           resource_type: "auto",
@@ -22,4 +24,24 @@ const cloudinaryUploadImg = async (fileToUpload) => {
     });
   });
 };
-module.exports = cloudinaryUploadImg;
+
+const cloudinaryDeleteImg = async (fileToDelete) => {
+  return new Promise((resolve) => {
+    cloudinary.uploader.destroy(fileToDelete, (result) => {
+      resolve(
+        {
+          url: result.secure_url,
+          asset_id: result.asset_id,
+          public_id: result.public_id,
+        },
+        {
+          resource_type: "auto",
+        },
+        {
+          folder:"images",
+        }
+      );
+    });
+  });
+};
+module.exports = {cloudinaryUploadImg, cloudinaryDeleteImg};

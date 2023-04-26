@@ -29,7 +29,7 @@ const updateBrand = asyncHandler(async (req, res) =>{
         const updateBrand = await Brand.findByIdAndUpdate(id, req.body, {
             new: true,
         });
-        res.json({message: "Se ha actualizado",updateBrand});
+        res.json({message: "Updated Successfull", brandUpdated: updateBrand});
     }catch(error){throw new Error(error)}
 });
 
@@ -45,7 +45,7 @@ const deleteBrand = asyncHandler(async (req, res) =>{
     validateMongoDbId(id);
     try{
         const deleteBrand = await Brand.findByIdAndDelete(id);
-        res.json({message: "Se ha eliminado", deleteBrand});
+        res.json({message: "Deleted Successfull", BrandDeleted: deleteBrand});
     }catch(error){throw new Error(error)}
 });
 
