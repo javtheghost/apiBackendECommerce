@@ -1,4 +1,5 @@
 const { generateToken } = require("../config/jwtToken");
+<<<<<<< HEAD
 const uniquid = require('uniquid');
 const User = require("../models/user");
 const Product = require("../models/product");
@@ -7,13 +8,19 @@ const Coupon = require ("../models/coupon");
 const Order = require ("../models/order");
 
 
+=======
+const User = require("../models/user");
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
 const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongobdId");
 const { generateRefreshToken } = require("../config/refreshToken");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const sendEmail = require("./emailController");
+<<<<<<< HEAD
 const { async } = require("rxjs");
+=======
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
 //crear usuario
 const createUser = asyncHandler (async (req, res) => {
     const email = req.body.email;
@@ -26,7 +33,11 @@ const createUser = asyncHandler (async (req, res) => {
         throw new Error("User already exists");
     }
 });
+<<<<<<< HEAD
 //LOGIN USER
+=======
+
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
 const loginUserCtrl = asyncHandler(async (req, res) =>{
     const {email, password} = req.body;
     //checar si el usuario existe
@@ -54,6 +65,7 @@ const loginUserCtrl = asyncHandler(async (req, res) =>{
     }else{ throw new Error("Invalid Credentials"); }
 });
 
+<<<<<<< HEAD
 //LOGIN ADMINISTRADOR
 
 const loginAdmin = asyncHandler(async (req, res) =>{
@@ -86,6 +98,8 @@ const loginAdmin = asyncHandler(async (req, res) =>{
 
 
 
+=======
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
 //handle refresh token
 
 const handleRefreshToken  = asyncHandler(async (req, res) =>{
@@ -163,7 +177,11 @@ const deleteUser = asyncHandler(async(req, res) =>{
         throw new Error(error);
     }
 });
+<<<<<<< HEAD
 //UPDATE A USER
+=======
+
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
 const updateUser = asyncHandler( async (req, res) =>{
     
     const { _id } = req.user;
@@ -182,6 +200,7 @@ const updateUser = asyncHandler( async (req, res) =>{
     }catch (error){throw new Error (error);
 }});
 
+<<<<<<< HEAD
 const saveAddress = asyncHandler(async(req, res) =>{
   const { _id } = req.user;
   validateMongoDbId(_id);
@@ -198,6 +217,8 @@ const saveAddress = asyncHandler(async(req, res) =>{
   res.json(updateUser);
   }catch(error){throw new Error(error)}
 });
+=======
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
 const blockUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
@@ -212,7 +233,11 @@ const blockUser = asyncHandler(async (req, res) => {
         new: true,
       }
     );
+<<<<<<< HEAD
     res.json({message: "User Bloqued", userBlocked: blockUser});
+=======
+    res.json({message: "¡Usuario bloqueado!",blockUser});
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
   } catch (error) {
     throw new Error(error);
   }
@@ -298,6 +323,7 @@ const unBlockUser = asyncHandler(async (req, res) => {
     res.json(user);
 
   });
+<<<<<<< HEAD
 
 
   const getWishlist = asyncHandler(async(req, res)=>{
@@ -507,3 +533,9 @@ createOrder,
 getOrders,
 updateOrderStatus
 };
+=======
+module.exports = {loginUserCtrl, createUser, getAllUser, getaUser,
+updateUser, deleteUser, blockUser, unBlockUser,
+handleRefreshToken, logout, updatePassword, forgotPasswordToken, resetPassword
+ };
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9

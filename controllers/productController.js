@@ -6,7 +6,10 @@ const slugify = require("slugify");
 const validateMongoDbId = require("../utils/validateMongobdId");
 const fs = require('fs');
 const path = require("path");
+<<<<<<< HEAD
 const {cloudinaryUploadImg, cloudinaryDeleteImg} = require("../utils/cloudinary");
+=======
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
 const createProduct = asyncHandler(async(req, res) => {
     try{
         if(req.body.title){
@@ -182,6 +185,12 @@ const rating = asyncHandler(async (req, res) => {
 
 //product images
 const uploadImages = asyncHandler(async(req, res)=>{
+<<<<<<< HEAD
+=======
+  const {id} = req.params;
+  validateMongoDbId(id);
+  console.log(req.files)
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
   try{
     const uploader = (path) => cloudinaryUploadImg(path, "images");
     const urls = [];
@@ -193,11 +202,26 @@ const uploadImages = asyncHandler(async(req, res)=>{
       urls.push(newPath);
       fs.unlinkSync(path);
     }
+<<<<<<< HEAD
     //delete images
     const images = urls.map((file)=>{
       return file;
     });
     res.json(images)
+=======
+    const findProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        images: urls.map((file) =>{
+          return file;
+        }),
+      },
+      {
+        new:true,
+      }
+    )
+    res.json(findProduct)
+>>>>>>> 182926f4fe798899898eeda8ce09d0c35d3051d9
   }catch (error) {
     throw new Error(error);
   }
